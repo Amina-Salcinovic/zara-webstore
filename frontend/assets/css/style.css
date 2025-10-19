@@ -9582,3 +9582,9 @@ a.text-dark:hover, a.text-dark:focus {
     transform: translateY(-15px);
   }
 }
+.navbar-light .nav-nav .nav-link.active, 
+.navbar-light .nav-nav .nav-link:focus, 
+.navbar-light .nav-nav .nav-link:hover{
+    color: #111 !important;
+    background-color: transparent !important;
+}

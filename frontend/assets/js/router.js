@@ -1,6 +1,6 @@
 var app = $.spapp({
-    defaultView  : "#shop",
-    templateDir  : "../../pages/"
+    defaultView  : "#home",
+    templateDir  : "./pages/"
   });
 
 // app.route({ view: 'cart', load: 'cart.html'}); 
