@@ -1,7 +1,7 @@
 <?php
 class Database {
    private static $host = 'localhost';
-   private static $dbName = 'zara_store_db';
+   private static $dbName = 'zara_store';
    private static $username = 'root';
    private static $password = '';
    private static $connection = null;
@@ -11,7 +11,7 @@ class Database {
        if (self::$connection === null) {
            try {
                self::$connection = new PDO(
-                   "mysql:host=" . self::$host .";port=3306;dbname=". self::$dbName,
+                   "mysql:host=" . self::$host . ";dbname=" . self::$dbName,
                    self::$username,
                    self::$password,
                    [
