@@ -6,7 +6,9 @@ class OrdersDao extends BaseDao {
    public function __construct() {
        parent::__construct("orders", "orderId");
    }
-
+   public function create($data) {
+        return $this->insert($data);
+    }
 
 //    public function getByUserId($user_id) {
 //        $stmt = $this->connection->prepare("SELECT * FROM orders WHERE userId = :userId");
@@ -50,6 +52,13 @@ class OrdersDao extends BaseDao {
         // Return true if update was successful
         return $stmt->rowCount() > 0;
     }
+    public function getByUserId($user_id) {
+    $stmt = $this->connection->prepare("SELECT * FROM orders WHERE userId = :userId");
+    $stmt->bindParam(':userId', $user_id);
+    $stmt->execute();
+    return $stmt->fetchAll();
+}
+
 }
 ?>
 
