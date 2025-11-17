@@ -7,7 +7,9 @@ class OrderItemsDao extends BaseDao {
        parent::__construct("orderitems", "itemId");
    }
 
-
+   public function create($data) {
+        return $this->insert($data);
+    }
 //    public function getByItemId($item_id) {
 //        $stmt = $this->connection->prepare("SELECT * FROM orderitems WHERE itemId = :itemId");
 //        $stmt->bindParam(':itemId', $item_id);
@@ -42,7 +44,7 @@ class OrderItemsDao extends BaseDao {
      public function getTotalForOrder($orderId) {
         $stmt = $this->connection->prepare("
             SELECT SUM(price * quantity) AS total
-            FROM orderitems
+            FROM  orderitems
             WHERE orderId = :orderId
         ");
         $stmt->bindParam(':orderId', $orderId);
@@ -52,5 +54,24 @@ class OrderItemsDao extends BaseDao {
         // Return total price, or 0 if no items found
         return $result['total'] ?? 0;
     }
+    // Get products by category
+    public function getByCategory($categoryName) {
+        $stmt = $this->connection->prepare("
+            SELECT oi.*, p.name AS product_name, c.name AS category_name
+            FROM orderitems oi
+            JOIN products p ON oi.productId = p.productId
+            JOIN categories c ON p.categoryId = c.categoryId
+            WHERE c.name = :categoryName
+         ");
+         $stmt->bindParam(':categoryName', $categoryName);
+         $stmt->execute();
+         return $stmt->fetchAll();
+    }
+    public function getByOrderId($orderId) {
+        $stmt = $this->connection->prepare("SELECT * FROM orderitems WHERE orderId = ?");
+        $stmt->execute([$orderId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
 ?>

@@ -16,6 +16,12 @@ class CategoriesDao extends BaseDao {
 //        $stmt->execute();
 //        return $stmt->fetchAll();
 //    }
+
+
+   public function create($data) {
+        return $this->insert($data);
+    }
+
     public function getByName($name) {
         $stmt = $this->connection->prepare("SELECT * FROM categories WHERE name = :name");
         $stmt->bindParam(':name', $name);
@@ -45,5 +51,12 @@ class CategoriesDao extends BaseDao {
         $stmt->execute();
         return $stmt->fetchAll();
     }
+    public function getByUserId($user_id) {
+    $stmt = $this->connection->prepare("SELECT * FROM categories WHERE userId = :userId");
+    $stmt->bindParam(':userId', $user_id);
+    $stmt->execute();
+    return $stmt->fetchAll();
+}
+
 }
 ?>
