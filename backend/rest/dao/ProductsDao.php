@@ -17,12 +17,12 @@ class ProductsDao extends BaseDao {
 //        return $stmt->fetchAll();
 //    }
  // Get products by category
-  public function getByCategory($categoryId) {
-        $stmt = $this->connection->prepare("SELECT * FROM products WHERE categoryId = :categoryId");
-        $stmt->bindParam(':categoryId', $categoryId);
-        $stmt->execute();
-        return $stmt->fetchAll();
-    }
+//   public function getByCategory($id) {
+//         $stmt = $this->connection->prepare("SELECT * FROM products WHERE id = :id");
+//         $stmt->bindParam(':id', $id);
+//         $stmt->execute();
+//         return $stmt->fetchAll();
+//     }
 
     // Search products by name
     public function searchByName($keyword) {
@@ -41,12 +41,12 @@ class ProductsDao extends BaseDao {
         $stmt->execute();
         return $stmt->fetchAll();
     }
-    public function getByUserId($user_id) {
-    $stmt = $this->connection->prepare("SELECT * FROM products WHERE userId = :userId");
-    $stmt->bindParam(':userId', $user_id);
-    $stmt->execute();
-    return $stmt->fetchAll();
-}
+//     public function getByUserId($id) {
+//     $stmt = $this->connection->prepare("SELECT * FROM products WHERE id = :id");
+//     $stmt->bindParam(':id', $id);
+//     $stmt->execute();
+//     return $stmt->fetchAll();
+// }
 
 }
 ?>

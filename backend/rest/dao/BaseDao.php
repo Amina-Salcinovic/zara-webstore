@@ -2,6 +2,8 @@
 //require_once '../config.php';
 require_once __DIR__ . '/../config.php';
 
+
+
 class BaseDao {
    protected $table;
    protected $primaryKey;
@@ -57,5 +59,20 @@ class BaseDao {
        $stmt->bindParam(':id', $id);
        return $stmt->execute();
    }
+
+    // Generic method for executing SELECT queries that return multiple rows
+    public function query($sql, $params = []) {
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll();
+    }
+
+// Executes a SELECT query expected to return exactly one row (used for login lookups)
+    public function query_unique($sql, $params = []) {
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetch();
+    }
+
 }
 ?>
