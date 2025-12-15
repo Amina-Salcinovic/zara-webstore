@@ -18,6 +18,7 @@
  * )
  */
 Flight::route('GET /orderitems', function(){
+   Flight::auth_middleware()->authorizeRoles([Roles::ADMIN, Roles::USER]);
    Flight::json(Flight::orderItemsService()->getAll());
 });
 
@@ -43,6 +44,7 @@ Flight::route('GET /orderitems', function(){
  * )
  */
 Flight::route('GET /orderitems/@id', function($id){
+   Flight::auth_middleware()->authorizeRoles([Roles::ADMIN, Roles::USER]);
    Flight::json(Flight::orderItemsService()->getById($id));
 });
 
@@ -64,6 +66,7 @@ Flight::route('GET /orderitems/@id', function($id){
  * )
  */
 Flight::route('GET /orderitems/order/@orderId', function($orderId){
+   Flight::auth_middleware()->authorizeRoles([Roles::ADMIN, Roles::USER]);
    Flight::json(Flight::orderItemsService()->getByOrder($orderId));
 });
 
@@ -93,6 +96,7 @@ Flight::route('GET /orderitems/order/@orderId', function($orderId){
  * )
  */
 Flight::route('POST /orderitems', function(){
+   Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
    $data = Flight::request()->data->getData();
    Flight::json(Flight::orderItemsService()->create($data));
 });
@@ -126,6 +130,7 @@ Flight::route('POST /orderitems', function(){
  * )
  */
 Flight::route('PUT /orderitems/@id', function($id){
+   Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
    $data = Flight::request()->data->getData();
    Flight::json(Flight::orderItemsService()->update($id, $data));
 });
@@ -159,6 +164,7 @@ Flight::route('PUT /orderitems/@id', function($id){
  * )
  */
 Flight::route('PATCH /orderitems/@id', function($id){
+   Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
    $data = Flight::request()->data->getData();
    Flight::json(Flight::orderItemsService()->update($id, $data));
 });
@@ -185,6 +191,7 @@ Flight::route('PATCH /orderitems/@id', function($id){
  * )
  */
 Flight::route('DELETE /orderitems/@id', function($id){
+   Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
    Flight::json(Flight::orderItemsService()->delete($id));
 });
 ?>
