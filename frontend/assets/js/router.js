@@ -10,3 +10,20 @@ var app = $.spapp({
 // app.route({ view: 'shop', load: 'shop.html'}); 
 
 app.run(); 
+
+$(document).on("spapp:page", function (e, page) {
+  if (page.view === "checkout") {
+    CheckoutService.init();
+  }
+});
+
+$(document).on("spapp:page", function (e, page) {
+
+  if (page.view === "login" || page.view === "register") {
+    UserService.init();
+  }
+
+  if (page.view === "checkout") {
+    CheckoutService.init();
+  }
+});
