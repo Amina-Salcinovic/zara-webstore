@@ -7,12 +7,12 @@ class OrdersService extends BaseService {
        $dao = new OrdersDao();
        parent::__construct($dao);
    }
-   public function getByUserId($user_id) {
-       return $this->dao->getByUserId($user_id);
+   public function getByUserId($id) {
+       return $this->dao->getByUserId($id);
    }
    public function createOrder($data) {
         // Check if user_id is provided
-        if (empty($data['userId'])) {
+        if (empty($data['id'])) {
             throw new Exception('User ID is required for creating an order.');
         }
 

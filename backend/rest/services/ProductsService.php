@@ -7,8 +7,8 @@ class ProductsService extends BaseService {
        $dao = new ProductsDao();
        parent::__construct($dao);
    }
-   public function getByUserId($user_id) {
-       return $this->dao->getByUserId($user_id);
+   public function getByUserId($id) {
+       return $this->dao->getByUserId($id);
    }
 
  public function createProduct($data) {
@@ -54,8 +54,8 @@ public function partialUpdateProduct($id, $data) {
     // Call DAO to update the product in the database
     return $this->dao->update($id, $updatedData);
 }
-public function getByCategory($categoryId) {
-    return $this->dao->getByCategory($categoryId);
+public function getByCategory($id) {
+    return $this->dao->getByCategory($id);
 }
 
 

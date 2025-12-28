@@ -25,6 +25,7 @@
  * )
  */
 Flight::route('GET /product/@id', function($id){
+    Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::ADMIN]);
     Flight::json(Flight::productService()->getById($id));
 });
 
@@ -40,6 +41,7 @@ Flight::route('GET /product/@id', function($id){
  * )
  */
 Flight::route('GET /product', function(){
+    Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::ADMIN]);
     Flight::json(Flight::productService()->getAll());
 });
 
@@ -62,6 +64,7 @@ Flight::route('GET /product', function(){
  * )
  */
 Flight::route('GET /product/category/@categoryId', function($categoryId){
+    Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::ADMIN]);
     Flight::json(Flight::productService()->getByCategory($categoryId));
 });
 
@@ -88,6 +91,7 @@ Flight::route('GET /product/category/@categoryId', function($categoryId){
  * )
  */
 Flight::route('POST /product', function(){
+    Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
     $data = Flight::request()->data->getData();
     Flight::json(Flight::productService()->createProduct($data));
 });
@@ -120,6 +124,7 @@ Flight::route('POST /product', function(){
  * )
  */
 Flight::route('PUT /product/@id', function($id){
+    Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
     $data = Flight::request()->data->getData();
     Flight::json(Flight::productService()->update($id, $data));
 });
@@ -150,6 +155,7 @@ Flight::route('PUT /product/@id', function($id){
  * )
  */
 Flight::route('PATCH /product/@id', function($id){
+    Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
     $data = Flight::request()->data->getData();
     Flight::json(Flight::productService()->partialUpdateProduct($id, $data));
 });
@@ -173,6 +179,7 @@ Flight::route('PATCH /product/@id', function($id){
  * )
  */
 Flight::route('DELETE /product/@id', function($id){
+    Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
     Flight::json(Flight::productService()->deleteProduct($id));
 });
 ?>

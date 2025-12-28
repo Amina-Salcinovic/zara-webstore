@@ -115,23 +115,6 @@ let ProductService = {
             toastr.error(response.message || "Error deleting product");
             ProductService.closeModal();
         });
-    }  
+    }
 };
-
-// CLICK ON PRODUCT IMAGE → ADD TO CART
-$(document).on("click", ".product-image", function () {
-  CartService.add({
-    product_id: $(this).data("id"),
-    name: $(this).data("name"),
-    price: Number($(this).data("price")),
-    image_url: $(this).data("image")
-  });
-});
-
-
-// CLICK ON HEART → ADD TO FAVORITES
-$(document).on("click", ".add-favorite", function (e) {
-  e.stopPropagation(); // da klik na srce ne doda i u cart
-  FavoritesService.add($(this).data("id"));
-});
 

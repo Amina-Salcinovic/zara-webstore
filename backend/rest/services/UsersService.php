@@ -7,8 +7,8 @@ class UsersService extends BaseService {
        $dao = new UsersDao();
        parent::__construct($dao);
    }
-   public function getByUserId($user_id) {
-       return $this->dao->getByUserId($user_id);
+   public function getByUserId($id) {
+       return $this->dao->getByUserId($id);
    }
    public function createUser($data) {
         // Check if name is provided

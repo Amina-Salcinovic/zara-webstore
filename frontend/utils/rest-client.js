@@ -29,6 +29,13 @@ let RestClient = {
          );
        },
        data: JSON.stringify(data),
+       beforeSend: function (xhr) {
+         xhr.setRequestHeader(
+           "Authentication",
+           localStorage.getItem("user_token")
+         );
+       },
+       data: data,
      })
        .done(function (response, status, jqXHR) {
          if (callback) callback(response);
@@ -53,4 +60,5 @@ let RestClient = {
    put: function (url, data, callback, error_callback) {
      RestClient.request(url, "PUT", data, callback, error_callback);
    },
+ };
  };

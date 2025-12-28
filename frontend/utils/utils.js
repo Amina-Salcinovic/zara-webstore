@@ -1,7 +1,9 @@
 let Utils = {
     datatable: function (table_id, columns, data, pageLength = 15) {
         if ($.fn.dataTable.isDataTable("#" + table_id)) {
-            $("#" + table_id).DataTable().destroy();
+            $("#" + table_id)
+                .DataTable()
+                .destroy();
         }
         $("#" + table_id).DataTable({
             data: data,
@@ -23,29 +25,35 @@ let Utils = {
         }
     },
 
+    generateMenuItems: function() {
+        const token = localStorage.getItem("user_token");
+        const userData = this.parseJwt(token);
+        if (!userData) return;
+
+        // Primjer: generiši meni na osnovu role
+        if (userData.role === "admin") {
+            $("#menu").html(`
+                <li><a href="products.html">Products</a></li>
+                <li><a href="users.html">Users</a></li>
+                <li><a href="orders.html">Orders</a></li>
+            `);
+        } else if (userData.role === "user") {
+            $("#menu").html(`
+                <li><a href="products.html">Products</a></li>
+                <li><a href="orders.html">My Orders</a></li>
+            `);
+        }
+    },
 
     loadProductsTable: function() {
-        RestClient.get("products", function(data) {
+        RestClient.get("product", function(data) {
             const columns = [
                 { title: "ID", data: "id" },
                 { title: "Name", data: "name" },
                 { title: "Price", data: "price" },
                 { title: "Stock", data: "stock" },
-                { 
-                    title: "Actions", 
-                    data: null, 
-                    render: function(data, type, row) {
-                        return `
-                            <button class="btn btn-sm btn-primary" onclick="ProductService.openEditModal(${row.id})">Edit</button>
-                            <button class="btn btn-sm btn-danger" onclick="ProductService.openConfirmationDialog('${row.id}')">Delete</button>
-                        `;
-                    }
-                }
             ];
-            
             Utils.datatable("productsTable", columns, data);
-        }, function(error) {
-            toastr.error("Could not load products");
         });
     }
 };

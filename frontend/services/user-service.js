@@ -1,31 +1,16 @@
 var UserService = {
   init: function () {
-
     var token = localStorage.getItem("user_token");
     if (token && token !== undefined) {
       window.location.replace("index.html");
     }
 
-    // LOGIN VALIDATION
-    if ($("#login-form").length) {
-      $("#login-form").validate({
-        submitHandler: function (form) {
-          let entity = Object.fromEntries(new FormData(form).entries());
-          UserService.login(entity);
-        }
-      });
-    }
-
-    // REGISTER VALIDATION 
-    if ($("#register-form").length) {
-      $("#register-form").validate({
-        submitHandler: function (form) {
-          let user = Object.fromEntries(new FormData(form).entries());
-          UserService.register(user);
-        }
-      });
-    }
-
+    $("#login-form").validate({
+      submitHandler: function (form) {
+        var entity = Object.fromEntries(new FormData(form).entries());
+        UserService.login(entity);
+      },
+    });
   },
 
   login: function (entity) {
@@ -36,35 +21,95 @@ var UserService = {
       contentType: "application/json",
       dataType: "json",
       success: function (result) {
+        console.log(result);
         localStorage.setItem("user_token", result.data.token);
         window.location.replace("index.html");
       },
-      error: function (xhr) {
-        toastr.error(xhr.responseText || "Login failed");
-      }
-    });
-  },
-
-  register: function (user) {
-     console.log("REGISTER PAYLOAD:", user);
-    $.ajax({
-      url: Constants.PROJECT_BASE_URL + "auth/register",
-      type: "POST",
-      data: JSON.stringify(user),
-      contentType: "application/json",
-      success: function () {
-        toastr.success("Registration successful");
-        $("#register-form")[0].reset();
-        window.location.hash = "#login";
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+        toastr.error(
+          XMLHttpRequest?.responseText ? XMLHttpRequest.responseText : "Error"
+        );
       },
-      error: function (xhr) {
-        toastr.error(xhr.responseText || "Registration failed");
-      }
     });
   },
 
   logout: function () {
     localStorage.clear();
     window.location.replace("login.html");
-  }
+  },
+
+  generateMenuItems: function () {
+    const token = localStorage.getItem("user_token");
+    const user = Utils.parseJwt(token).user;
+
+    if (user && user.role) {
+      let nav = "";
+      let main = "";
+
+      
+      switch (user.role) {
+        case Constants.USER_ROLE:
+          nav =
+            '<li class="nav-item mx-0 mx-lg-1">' +
+            '<a class="nav-link py-3 px-0 px-lg-3 rounded" href="#students">Students</a>' +
+            "</li>" +
+            '<li class="nav-item mx-0 mx-lg-1">' +
+            '<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#highcharts">Highcharts</a>' +
+            "</li>" +
+            '<li class="nav-item mx-0 mx-lg-1">' +
+            '<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#forms">Forms</a>' +
+            "</li>" +
+            '<li>' +
+            '<button class="btn btn-primary" onclick="UserService.logout()">Logout</button>' +
+            "</li>";
+            $("#tabs").html(nav);
+          main =
+            '<section id="highcharts"></section>' +
+            '<section id="forms"></section>' +
+            '<section id="view_more"></section>' +
+            '<section id="students" data-load="students.html"></section>';
+            $("#spapp").html(main);
+          break;
+
+        case Constants.ADMIN_ROLE:
+          nav =
+            '<li class="nav-item mx-0 mx-lg-1">' +
+            '<a class="nav-link py-3 px-0 px-lg-3 rounded" href="#students">Students</a>' +
+            "</li>" +
+            '<li class="nav-item mx-0 mx-lg-1">' +
+            '<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#highcharts">Highcharts</a>' +
+            "</li>" +
+            '<li class="nav-item mx-0 mx-lg-1">' +
+            '<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#forms">Forms</a>' +
+            "</li>" +
+            '<li class="nav-item mx-0 mx-lg-1">' +
+            '<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#forms">FormsADMIN</a>' +
+            "</li>" +
+            '<li>' +
+            '<button class="btn btn-primary" onclick="UserService.logout()">Logout</button>' +
+            "</li>";
+            $("#tabs").html(nav);
+          main =
+            '<section id="highcharts"></section>' +
+            '<section id="forms"></section>' +
+            '<section id="view_more"></section>' +
+            '<section id="students" data-load="students.html"></section>';
+             $("#spapp").html(main);
+          break;
+
+        default:
+        
+          $("#tabs").html(nav);
+          $("#spapp").html(main);
+      }
+
+     
+      $("#tabs").html(nav);
+      $("#spapp").html(main);
+    } else {
+      
+      window.location.replace("login.html");
+    }
+  },
 };
+

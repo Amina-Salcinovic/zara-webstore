@@ -19,7 +19,6 @@ class AuthService extends BaseService {
 
 
    public function register($entity) {  
-    error_log("REGISTER HIT");
        if (empty($entity['email']) || empty($entity['password'])) {
            return ['success' => false, 'error' => 'Email and password are required.'];
        }
@@ -29,12 +28,7 @@ class AuthService extends BaseService {
        if($email_exists){
            return ['success' => false, 'error' => 'Email already registered.'];
        }
-       if (!empty($entity['name'])) {
-        $parts = explode(' ', trim($entity['name']), 2);
-        $entity['first_name'] = $parts[0];
-        $entity['last_name'] = $parts[1] ?? '';
-        unset($entity['name']);
-    }
+
 
        $entity['password'] = password_hash($entity['password'], PASSWORD_BCRYPT);
 
@@ -71,7 +65,7 @@ class AuthService extends BaseService {
            'user' => $user,
            'iat' => time(),
            // If this parameter is not set, JWT will be valid for life. This is not a good approach
-           'exp' => time() + (60 * 60 * 34) // valid for day
+           'exp' => time() + (60 * 60 * 24) // valid for day
        ];
 
 
