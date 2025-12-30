@@ -5,7 +5,7 @@ require_once 'BaseDao.php';
 
 class CategoriesDao extends BaseDao {
    public function __construct() {
-       parent::__construct("categories", "categoryId");
+       parent::__construct("categories", "id");
    }
 
    #Promijeniti imena tabela onako kako su u bazi
@@ -40,20 +40,20 @@ class CategoriesDao extends BaseDao {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-        public function getAvailableProducts($categoryId) {
+        public function getAvailableProducts($id) {
         $stmt = $this->connection->prepare("
             SELECT p.* 
             FROM products p
-            INNER JOIN categories c ON p.categoryId = c.categoryId
-            WHERE p.categoryId = :categoryId AND p.stock > 0
+            INNER JOIN categories c ON p.categoryId = c.id
+            WHERE p.categoryId = :id AND p.stock > 0
         ");
-        $stmt->bindParam(':categoryId', $categoryId);
+        $stmt->bindParam(':id', $id);
         $stmt->execute();
         return $stmt->fetchAll();
     }
-    public function getByUserId($user_id) {
+    public function getByUserId($id) {
     $stmt = $this->connection->prepare("SELECT * FROM categories WHERE userId = :userId");
-    $stmt->bindParam(':userId', $user_id);
+    $stmt->bindParam(':userId', $id);
     $stmt->execute();
     return $stmt->fetchAll();
 }

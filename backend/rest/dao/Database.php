@@ -3,11 +3,10 @@
 require_once __DIR__ . '/../config.php'; 
 
 class Database {
-   private static $host = 'localhost';
-   private static $dbName = 'zara_store';
-   private static $username = 'root';
-   private static $password = '';
-   private static $connection = null;
+    private static $host = 'sqlXXX.infinityfree.com';
+    private static $dbName = 'if0_40781062_zara';
+    private static $username = 'if0_40781062';
+    private static $password = 'LEwdS5lyG93MXwS';
 
 
    public static function connect() {
@@ -29,4 +28,5 @@ class Database {
        return self::$connection;
    }
 }
+?>
 ?>

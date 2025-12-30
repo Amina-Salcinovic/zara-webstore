@@ -21,6 +21,14 @@ let RestClient = {
      $.ajax({
        url: Constants.PROJECT_BASE_URL + url,
        type: method,
+       contentType: "application/json",
+       beforeSend: function (xhr) {
+         xhr.setRequestHeader(
+           "Authentication",
+           xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("user_token"))
+         );
+       },
+       data: JSON.stringify(data),
        beforeSend: function (xhr) {
          xhr.setRequestHeader(
            "Authentication",
@@ -52,4 +60,5 @@ let RestClient = {
    put: function (url, data, callback, error_callback) {
      RestClient.request(url, "PUT", data, callback, error_callback);
    },
+ };
  };
